@@ -13,6 +13,17 @@ import asyncio
 bot: Bot = Bot(token=TOKEN)
 dp: Dispatcher = Dispatcher()
 
+
+# Создаем объекты кнопок
+button_to_show_copywriting: KeyboardButton = KeyboardButton(text='Copywriting')
+button_to_show_Tbots: KeyboardButton = KeyboardButton(text='Telegram bots')
+
+# Создаем объект клавиатуры
+keyboard: ReplyKeyboardMarkup = ReplyKeyboardMarkup(
+                                    keyboard=[[button_to_show_copywriting], [button_to_show_Tbots]],
+                                    resize_keyboard = True,
+                                    one_time_keyboard=True)
+
 @dp.message(CommandStart())
 async def start_process(message: Message):
     await message.answer("Hi! It's LDLN bot. \nYou can push on menu button to see commands. \nTo get more info - /help")
@@ -41,6 +52,27 @@ async def help_process(message: Message):
 @dp.message(Text(text='/insta'))
 async def help_process(message: Message):
     await message.answer('Link to our instagram account', reply_markup=insta)
+
+
+@dp.message(Text(text='/products'))
+async def show_products(message: Message):
+    await message.answer('Select the type of product you are interested in', reply_markup=keyboard)
+
+@dp.message(Text(text='Copywriting'))
+async def show_copywriting(message: Message):
+    chat_id = message.from_user.id
+    photo_url = 'https://sun9-18.userapi.com/impg/4BMie2By2D6UrTFJF2YxoT7uzsa0WpJdbtFO9g/LKXEhhA0wMw.jpg?size=924x733&quality=95&sign=cc4f4b1923839870c5c68b5909bff510&type=album'
+    await message.answer(
+        'COPYWRITING\nWe have been working in the field of copywriting since 2020 and already have a lot of experience in this topic.\n\nOrder - Contact our administrator (Telegram - @n1kkostyle)')
+    await bot.send_photo(chat_id, photo=photo_url)
+
+@dp.message(Text(text='Telegram bots'))
+async def show_copywriting(message: Message):
+    chat_id = message.from_user.id
+    photo_url = 'https://sun9-59.userapi.com/impg/9WGAfmYhHI8wKaR4MQeP3BJZgCfp1LB6MdZajA/WfiA1blCdTQ.jpg?size=1024x1024&quality=95&sign=398d8fa008b949d002c676576b28fe44&c_uniq_tag=oaWGtlLmwlQhyrXpEkPEksaFk7OPSetgzp2qSwUR5yc&type=album'
+    await message.answer(
+        'Telegram bots\nWe have created many telegram bots and received a lot of positive feedback.\nWe write bots in the Python programming language and use the aiogram library.\n\nOrder - Contact our administrator (Telegram - @n1kkostyle)')
+    await bot.send_photo(chat_id, photo=photo_url)
 
 
 if __name__ == '__main__':
